@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+mysql-connector-python
+sqlalchemy
+python-jose[cryptography]
+bcrypt
+passlib[bcrypt]
+python-multipart
+face_recognition
+deepface
+opencv-python
+numpy
+pandas
+openpyxl
+PyMuPDF
+pillow
+python-dotenv
