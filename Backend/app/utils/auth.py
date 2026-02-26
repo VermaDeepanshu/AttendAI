@@ -3,6 +3,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
 import os
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,3 +30,26 @@ def decode_token(token: str):
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
         return None
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    """Decode JWT and return payload with user id and role."""
+    payload = decode_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return payload
+
+def require_admin(current_user: dict = Depends(get_current_user)):
+    """Dependency that ensures the current user is an admin."""
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return current_user
+
+def require_teacher(current_user: dict = Depends(get_current_user)):
+    """Dependency that ensures the current user is a teacher."""
+    if current_user.get("role") != "teacher":
+        raise HTTPException(status_code=403, detail="Teacher access required")
+    return current_user

@@ -1,0 +1,100 @@
+/* ─── Dashboard Chart Containers ─────────────────────────────────────────── */
+.dashboard-chart-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-top: 28px;
+}
+
+.dashboard-chart-wrap h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+}
+
+.dashboard-chart {
+    position: relative;
+    height: 280px;
+}
+
+/* ─── Quick Stats Row ────────────────────────────────────────────────────── */
+.welcome-text {
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+}
+
+/* ─── Dashboard Grid (2-col) ─────────────────────────────────────────────── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* ─── Schedule Preview Widget ────────────────────────────────────────────── */
+.schedule-widget {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+
+.schedule-widget h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.sw-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.sw-item:last-child {
+    border-bottom: none;
+}
+
+.sw-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+}
+
+.sw-info {
+    flex: 1;
+}
+
+.sw-subj {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.sw-class {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.sw-time {
+    font-size: 0.78rem;
+    color: var(--primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-chart {
+        height: 200px;
+    }
+}

@@ -19,7 +19,8 @@ class Teacher(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"), unique=True)
     name = Column(String(150), nullable=False)
-    schedules = relationship("Schedule", back_populates="teacher")
+    raw_password = Column(String(255), nullable=True)  # Stored for admin viewing
+    schedules = relationship("Schedule", back_populates="teacher", cascade="all, delete-orphan")
     user = relationship("User")
 
 class Subject(Base):
@@ -54,7 +55,7 @@ class Student(Base):
     roll_number = Column(String(50), unique=True, nullable=False)
     image_path = Column(String(255))
     class_id = Column(Integer, ForeignKey("classes.id"))
-    face_encodings = relationship("FaceEncoding", back_populates="student")
+    face_encodings = relationship("FaceEncoding", back_populates="student", cascade="all, delete-orphan")
     class_section = relationship("ClassSection")
 
 class FaceEncoding(Base):
@@ -79,6 +80,11 @@ class Attendance(Base):
     date = Column(Date, nullable=False)
     time_start = Column(Time)
     created_at = Column(DateTime, server_default=func.now())
+    # Relationships for teacher routes
+    subject = relationship("Subject")
+    class_section = relationship("ClassSection")
+    teacher = relationship("Teacher")
+    records = relationship("AttendanceRecord", back_populates="attendance", cascade="all, delete-orphan")
 
 class AttendanceRecord(Base):
     __tablename__ = "attendance_records"
@@ -87,3 +93,6 @@ class AttendanceRecord(Base):
     student_id = Column(Integer, ForeignKey("students.id"))
     status = Column(Enum("Present", "Absent", "Not Marked"), default="Not Marked")
     marked_by_ai = Column(Boolean, default=False)
+    # Relationships
+    attendance = relationship("Attendance", back_populates="records")
+    student = relationship("Student")
